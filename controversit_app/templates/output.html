@@ -35,7 +35,7 @@
     <div class="container">
       <div class="starter-template">
         <h1>Controversit</h1>
-        <p>A tool to predict controversial content on Reddit</p>
+        <p>A tool to predict popular and/or controversial content on Reddit</p>
       </div>
 	
       <div class = "container">	
@@ -68,14 +68,20 @@
             <h3>Results</h3>
 	    <br>
 	    <h4>Controversit predicts with {{score_pop}} confidence that...<h4>
-            <font color={{pop_color}}><h4>Your post is going to be {{pop_mess}}!<h4></font>
+	    <font color={{pop_color}}><h4>Your post is going to be {{pop_mess}}!<h4></font>
 	    <br><br>
-            <h4>Controversit predicts with {{score_con}} confidence that...<h4>
-            <font color={{con_color}}><h4>Your post is going to be {{con_mess}}!<h4></font>
+	    <h4>Controversit predicts with {{score_con}} confidence that...<h4>
+	    <font color={{con_color}}><h4>Your post is going to be {{con_mess}}!<h4></font>
+	    <br><br>
+	    <h3>Summary statistics for {{subr_name}}</h3>
+	    <br><br>
+	    <h4>{{pop_fraction}}% of the posts on {{subr_name}} are popular (see definition below).<h4>
+	    <br>
+	    <h4>{{con_fraction}}% of the posts on {{subr_name}} are popular (see definition below).<h4>
 	  </div>
-	  
-	  <br><br><br><br><br><br>
-	  
+
+          <br><br><br><br><br><br>
+
 	  <div style="display: flex; justify-content: center;">
 	    <img src="../static/images/popularity_hist.png" />
 	  </div>

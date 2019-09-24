@@ -53,7 +53,9 @@ def output():
   except:
      num_topics=0
 
-  reg_pop_model,score_pop,success_pop,reg_con_model,score_con,success_con = load_reg_model(reg_model_path,subr)
+  reg_pop_model,score_pop,success_pop,reg_con_model, \
+      score_con,success_con, \
+      pop_fraction,con_fraction = load_reg_model(reg_model_path,subr)
   
   success = success_nmf and success_vec and success_tra and success_pop and success_con
  
@@ -80,18 +82,18 @@ def output():
            con_mess = "CONTROVERSIAL"
            con_color = "red"
 
-        if score_pop < 60:
+        if score_pop < 55:
             score_pop_s = "LOW"
-        if score_pop >= 60 and score_pop <= 80:
+        if score_pop >= 55 and score_pop <= 85:
             score_pop_s = "MODERATE"
-        if score_pop > 80:
+        if score_pop > 85:
             score_pop_s = "HIGH"
 
-        if score_con < 60:
+        if score_con < 55:
             score_con_s = "LOW"
-        if score_con >= 60 and score_con <= 80:
+        if score_con >= 55 and score_con <= 85:
             score_con_s = "MODERATE"
-        if score_con > 80:
+        if score_con > 85:
             score_con_s = "HIGH"
         print(score_con,score_con_s)
   else :
@@ -103,4 +105,5 @@ def output():
                          subm_text=subm_text,message=message, \
                          message_color=message_color, \
                          pop_mess=pop_mess,pop_color=pop_color,score_pop=score_pop_s, \
-                         con_mess=con_mess,con_color=con_color,score_con=score_con_s)
+                         con_mess=con_mess,con_color=con_color,score_con=score_con_s, \
+                         pop_fraction=pop_fraction,con_fraction=con_fraction)

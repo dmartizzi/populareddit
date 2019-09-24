@@ -94,13 +94,17 @@ def load_reg_model(reg_model_path,subr):
     regoutfile = outpath+"/gbprecision_nmf_prod_r-"+subr+".csv"
     if path.exists(regoutfile):
         sc = pd.read_csv(regoutfile)
-        score_val_pop = (sc["PopValidationScore"][0])*100
+        score_val_pop = float(sc["PopValidationScore"][0])*100
         score_val_con = float(sc["ConValidationScore"][0])*100
+        pop_fraction = "%.1f"%float(sc["PopFraction"][0]*100)
+        con_fraction = "%.1f"%float(sc["ConFraction"][0]*100)
     else :
         score_val_pop = 0.0
         score_val_con = 0.0
-            
-    return reg_pop_model,score_val_pop,success_pop,reg_con_model,score_val_con,success_con
+        pop_fraction = "0.0"
+        con_fraction = "0.0"
+        
+    return reg_pop_model,score_val_pop,success_pop,reg_con_model,score_val_con,success_con,pop_fraction,con_fraction
 
 def lemmatize_stemming(text):
     '''Function to lemmatize text'''
