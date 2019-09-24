@@ -11,7 +11,6 @@ from gensim.parsing.preprocessing import STOPWORDS
 from gensim.test.utils import common_corpus
 from gensim.test.utils import datapath
 import nltk
-nltk.download('wordnet')
 from nltk.stem import WordNetLemmatizer, SnowballStemmer
 from nltk.stem.porter import *
 from nltk.corpus import stopwords

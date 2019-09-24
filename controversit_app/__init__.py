@@ -3,6 +3,7 @@ app = Flask(__name__)
 from controversit_app import views
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 300
 # No cacheing at all for API endpoints.
+
 @app.after_request
 def add_header(response):
     # response.cache_control.no_store = True

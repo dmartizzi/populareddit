@@ -4,15 +4,12 @@ from flask import render_template
 from flask import request
 from controversit_app import app
 from controversit_app.utils import *
-from sqlalchemy import create_engine
-from sqlalchemy_utils import database_exists, create_database
 import pandas as pd
-import psycopg2
 
 @app.route('/')
 def root():
     return render_template("input.html")
-
+    
 @app.route('/index')
 def index():
     return render_template("index.html")
@@ -95,7 +92,7 @@ def output():
             score_con_s = "MODERATE"
         if score_con > 85:
             score_con_s = "HIGH"
-        print(score_con,score_con_s)
+
   else :
      template_out = "output_error.html"
      message = "Error! Subreddit "+subr_name+" is not in the database. Please, choose another subreddit..."
