@@ -1,6 +1,7 @@
 import os.path
 from os import path
 import subprocess
+import collections
 import numpy as np
 import pandas as pd
 from scipy import stats
@@ -39,6 +40,10 @@ def get_list_of_subr(nmf_model_path):
         list_of_subr[i]=str(list_of_subr[i])[headlen:]
 
     return list_of_subr
+
+def setup_static_figures(pre_rendered_plots_path,static_path,subr):
+    subprocess.run(["rm",static_path+"/popularity_hist.png",static_path+"/controversiality_hist.png"])
+    subprocess.run(["cp",pre_rendered_plots_path+"/popularity_hist_r-"+subr+".png",static_path+"/popularity_hist.png"],stdout=subprocess.PIPE, stderr=subprocess.STDOUT)  
 
 
 def load_nmf_model(nmf_model_path,subr):
@@ -81,15 +86,6 @@ def load_reg_model(reg_model_path,subr):
         reg_pop_model = "NaN"
         success_pop = False
 
-    regoutfile = outpath+"/gbreg_controversial_prod_r-"+subr
-    if path.exists(regoutfile):
-        #print(regoutfile+"model exists!")
-        reg_con_model = pickle.load(open(regoutfile, 'rb'))
-        success_con = True
-    else:
-        reg_con_model = "NaN"
-        success_con = False
-    
     regoutfile = outpath+"/gbprecision_nmf_prod_r-"+subr+".csv"
     if path.exists(regoutfile):
         sc = pd.read_csv(regoutfile)
@@ -103,7 +99,7 @@ def load_reg_model(reg_model_path,subr):
         pop_fraction = "0.0"
         con_fraction = "0.0"
         
-    return reg_pop_model,score_val_pop,success_pop,reg_con_model,score_val_con,success_con,pop_fraction,con_fraction
+    return reg_pop_model,score_val_pop,success_pop,pop_fraction
 
 def lemmatize_stemming(text):
     '''Function to lemmatize text'''
@@ -118,7 +114,7 @@ def preprocess(text):
             result.append(lemmatize_stemming(token))
     return result
 
-def run_full_model(subm_text,nmf_model,vectorizer,transformer,reg_pop_model,reg_con_model):
+def run_full_model(subm_text,nmf_model,vectorizer,transformer,reg_pop_model):
     # Pre-process string
     processed_string = preprocess(subm_text)
     test_sentence = [' '.join(text) for text in processed_string]
@@ -132,7 +128,21 @@ def run_full_model(subm_text,nmf_model,vectorizer,transformer,reg_pop_model,reg_
 
     # Predict popularity and controversiality
     popular = reg_pop_model.predict(predicted_topic_nmf)
-    controversial = reg_con_model.predict(predicted_topic_nmf)
 
-    return popular, controversial
+    return popular
+
+def get_nmf_topics(vectorizer,nmf_model,n_top_words,num_topics):
+    
+    #the word ids obtained need to be reverse-mapped to the words so we can print the topic names.
+    feat_names = vectorizer.get_feature_names()
+    
+    word_dict = {}
+    for i in range(num_topics):
+        
+        #for each topic, obtain the largest values, and add the words they map to into the dictionary.
+        words_ids = model.components_[i].argsort()[:-20 - 1:-1]
+        words = [feat_names[key] for key in words_ids]
+        word_dict['Topic ' + '{:02d}'.format(i+1)] = words
+    
+    return word_dict
 
