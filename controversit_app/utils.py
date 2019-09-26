@@ -42,7 +42,8 @@ def get_list_of_subr(nmf_model_path):
     return list_of_subr
 
 def setup_static_figures(pre_rendered_plots_path,static_path,subr):
-    subprocess.run(["rm",static_path+"/popularity_hist.png",static_path+"/controversiality_hist.png"])
+    if os.path.exists(static_path+"/popularity_hist.png"):
+        subprocess.run(["rm",static_path+"/popularity_hist.png"])
     subprocess.run(["cp",pre_rendered_plots_path+"/popularity_hist_r-"+subr+".png",static_path+"/popularity_hist.png"],stdout=subprocess.PIPE, stderr=subprocess.STDOUT)  
 
 

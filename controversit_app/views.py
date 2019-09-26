@@ -18,7 +18,8 @@ def index():
 def input():
     rpath = os.getcwd()
     static_path = rpath+"/controversit_app/static/images"
-    subprocess.run(["rm",static_path+"/popularity_hist.png"])
+    if os.path.exists(static_path+"/popularity_hist.png"):
+        subprocess.run(["rm",static_path+"/popularity_hist.png"])
     return render_template("input.html")
 
 @app.route('/output')
