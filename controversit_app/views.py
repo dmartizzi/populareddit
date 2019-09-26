@@ -60,6 +60,7 @@ def output():
   pop_mess = "UNPOPULAR"
   pop_color = "red"
   score_pop_s = ""
+  num_top_words = 0
   alt_subr_count = 1
   alt_subr = ["Unable to recommend alternative subreddits."]
   if success == True:
