@@ -38,7 +38,7 @@ def output():
 
   # List of Subreddits
   list_of_subr = get_list_of_subr(nmf_model_path)
-
+  
   # Statif Figures - Histograms
   setup_static_figures(pre_rendered_plots_path,static_path,subr)
 
@@ -50,18 +50,18 @@ def output():
      num_topics = temp.shape[0]
   except:
      num_topics=0
+  topics = ""
 
-  num_top_words = 10
-  topics = get_nmf_topics(topics(vectorizer,nmf_model,num_top_words,num_topics)
-     
   # Regression model for this subreddit
   reg_pop_model,score_pop,success_pop,pop_fraction = load_reg_model(reg_model_path,subr)
-  
+
   success = success_nmf and success_vec and success_tra and success_pop
  
   pop_mess = "UNPOPULAR"
   pop_color = "red"
   score_pop_s = ""
+  alt_subr_count = 1
+  alt_subr = ["Unable to recommend alternative subreddits."]
   if success == True:
      if len(subm_text.split())<=3 :
         template_out = "output_error.html"
@@ -83,6 +83,13 @@ def output():
         if score_pop > 85:
             score_pop_s = "HIGH"
 
+        num_top_words = 20
+        sorter = np.argsort(-reg_pop_model.feature_importances_)
+        topics = get_nmf_topics(vectorizer,nmf_model,sorter,num_top_words,num_topics)
+
+        maxalt = 5
+        alt_subr,alt_subr_count = find_alternative_subreddits(subr,list_of_subr,subm_text,maxalt)
+        
   else :
      template_out = "output_error.html"
      message = "Error! Subreddit "+subr_name+" is not in the database. Please, choose another subreddit..."
@@ -92,4 +99,5 @@ def output():
                          subm_text=subm_text,message=message, \
                          message_color=message_color, \
                          pop_mess=pop_mess,pop_color=pop_color,score_pop=score_pop_s, \
-                         pop_fraction=pop_fraction,num_top_words=num_top_words,topics=topics)
+                         pop_fraction=pop_fraction,num_top_words=num_top_words, \
+                         topics=topics,alt_subr=alt_subr,alt_subr_count=alt_subr_count)

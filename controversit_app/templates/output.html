@@ -30,12 +30,12 @@
       <script src="static/js/bootstrap.min.js"></script>
     </nav>
 
-    <br><br>
+    <br><br><br><br>
     
     <div class="container">
       <div class="starter-template">
         <h1>Controversit</h1>
-        <p>A tool to predict popular and/or controversial content on Reddit</p>
+        <p>A tool to predict popular content on Reddit</p>
       </div>
 	
       <div class = "container">	
@@ -62,39 +62,57 @@
 	    </div>
 	  </div>-->
 
-	  <br><br><br><br><br><br>
+	  <br><br><br><br><br><br><br>
 	  
 	  <div class="starter-template">
             <h3>Results</h3>
 	    <br>
-	    <h4>Controversit predicts with {{score_pop}} confidence that...<h4>
+	    <!--<h4>Controversit predicts with {{score_pop}} confidence that...<h4>-->
 	    <font color={{pop_color}}><h4>Your post is going to be {{pop_mess}}!<h4></font>
 	    <br><br>
 	    <h3>Summary statistics for {{subr_name}}</h3>
-	    <br><br>
-	    <h4>{{pop_fraction}}% of the posts on {{subr_name}} are popular (see definition below).<h4>
+	    <br>
+	    <h4>{{pop_fraction}}% of the posts on {{subr_name}} are popular.<h4>
 	  </div>
 
+          <br><br><br><br><br><br><br>
+
+          <div style="display: flex; justify-content: center;">
+            <img src="../static/images/popularity_hist.png" />
+          </div>
+
+	  <br><br><br><br><br><br>
+	  
+	  <div class="starter-template">
+	    <h3>Most Popular Topics and Words on {{subr_name}}</h3>
+	    <h4>The most popular posts include words in the combinations shown below.</h4>
+            <br> 
+	    <table class="table table-hover">
+	      <tr><th>Topic 1 </th><th>Topic 2 </th><th>Topic 3 </th><th>Topic 4 </th><th>Topic 5 </th></tr>
+	      {% for i in range(0,num_top_words) %}
+	      <tr><td>{{ topics['Topic 01'][i] }}</td><td>{{ topics['Topic 02'][i] }}</td><td> {{ topics['Topic 03'][i] }}</td><td>{{ topics['Topic 04'][i] }}</td><td>{{ topics['Topic 05'][i] }}</td></tr>
+	      {% endfor %}
+	    </table>
+	  </div>
+	    
           <br><br><br><br><br><br>
 
-	  <div style="display: flex; justify-content: center;">
-	    <img src="../static/images/popularity_hist.png" />
+          <div class="starter-template">
+            <h3>Alternative subreddits where your post could be popular</h3>
+            <br>
+	    <table class="table table-hover">
+	      {% for i in range(0,alt_subr_count) %}
+	      <tr><td>{{ alt_subr[i] }}</td></tr>
+              {% endfor %}
+	    </table>
 	  </div>
-
-	  <div class="starter-template">
-	    <div>
+	    
+	  
+          <div class="starter-template">
+            <div>
               <a class="btn btn-success btn-lg" href="http://controversit.xyz/input" role="button">Check another submission</a>
-	    </div>
-	  </div>
-
-          <br><br><br><br><br><br>	  
-
-	  <table class="table table-hover">
-	    <tr><th></th><th>Topic 1 </th><th></th></tr>Topic 2 </th><th></th></tr>Topic 3 </th><th></th></tr>Topic 4 </th><th></th></tr>Topic 5 </th><th></th></tr>
-	    {% for i in range(0,num_top_words) %}
-	    <tr><td>{{ topics['Topic ' + '{:02d}'.format(i+1)][0]} }}</td><td>{{ topics['Topic ' + '{:02d}'.format(i+1)][1]}}</td><td> {{ topics['Topic ' + '{:02d}'.format(i+1)][2] }}</td><td>{{ topics['Topic ' + '{:02d}'.format(i+1)][3]}}</td><td>{{ topics['Topic ' + '{:02d}'.format(i+1)][4]}}</td><td>{{ topics['Topic ' + '{:02d}'.format(i+1)][5]}}</td></tr>
-	    {% endfor %}
-      </table>
+            </div>
+          </div>
 	  
 	</form>
       </div>

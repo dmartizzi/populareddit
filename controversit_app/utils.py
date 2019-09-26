@@ -30,12 +30,12 @@ def get_list_of_subr(nmf_model_path):
     of subreddits for which the data is 
     available.
     '''
-    list_bash_command = "ls "+nmf_model_path
-    process = subprocess.Popen(list_bash_command.split(), stdout=subprocess.PIPE)
+    list_bash_command = "ls "+nmf_model_path+"/nmf*"
+    process = subprocess.Popen(list_bash_command, shell=True, stdout=subprocess.PIPE)
     list_of_nfm_models, error = process.communicate()
     list_of_subr = list_of_nfm_models.decode("utf-8").split()
 
-    headlen = len("nmf_model_prod_r-")
+    headlen = len(nmf_model_path+"/nmf_model_prod_r-")
     for i in range(0,len(list_of_subr)):
         list_of_subr[i]=str(list_of_subr[i])[headlen:]
 
@@ -117,7 +117,8 @@ def preprocess(text):
 def run_full_model(subm_text,nmf_model,vectorizer,transformer,reg_pop_model):
     # Pre-process string
     processed_string = preprocess(subm_text)
-    test_sentence = [' '.join(text) for text in processed_string]
+    ts = " ".join(processed_string)
+    test_sentence = [ts]
     x_counts = vectorizer.transform(test_sentence)
     x_tfidf = transformer.transform(x_counts)
     x_tfidf_norm = normalize(x_tfidf, norm='l1', axis=1)
@@ -127,22 +128,45 @@ def run_full_model(subm_text,nmf_model,vectorizer,transformer,reg_pop_model):
     predicted_topic_nmf = normalize(y, norm='l1', axis=1)
 
     # Predict popularity and controversiality
-    popular = reg_pop_model.predict(predicted_topic_nmf)
+    popular = np.rint(reg_pop_model.predict(predicted_topic_nmf))
 
     return popular
 
-def get_nmf_topics(vectorizer,nmf_model,n_top_words,num_topics):
+def get_nmf_topics(vectorizer,nmf_model,sorter,num_top_words,num_topics):
     
     #the word ids obtained need to be reverse-mapped to the words so we can print the topic names.
     feat_names = vectorizer.get_feature_names()
     
     word_dict = {}
     for i in range(num_topics):
-        
+        ii = sorter[i]
         #for each topic, obtain the largest values, and add the words they map to into the dictionary.
-        words_ids = model.components_[i].argsort()[:-20 - 1:-1]
+        words_ids = nmf_model.components_[ii].argsort()[:-num_top_words - 1:-1]
         words = [feat_names[key] for key in words_ids]
-        word_dict['Topic ' + '{:02d}'.format(i+1)] = words
-    
+        word_dict['Topic ' + '{:02d}'.format(i+1)] = words    
+        
     return word_dict
 
+def find_alternative_subreddits(subrin,subr_list,subm_text,maxalt):
+    message=["Unable to find suitable subreddits"] * maxalt
+    count = 0
+    for subr in subr_list:
+        if subr != subrin:
+            rpath = os.getcwd()
+            nmf_model_path = rpath+"/controversit_app/nmf_models_prod"
+            reg_model_path = rpath+"/controversit_app/regression_models_prod"
+            
+            nmf_model,success_nmf,vectorizer,success_vec,transformer,success_tra = load_nmf_model(nmf_model_path,subr)        
+            reg_pop_model,score_pop,success_pop,pop_fraction = load_reg_model(reg_model_path,subr)
+
+            success = success_nmf and success_vec and success_tra and success_pop        
+            if success :
+                popular = run_full_model(subm_text,nmf_model,vectorizer,transformer,reg_pop_model)
+
+            if int(popular[0]) == 1 and count < min(maxalt,len(subr_list)-1):
+                message[count] = "r/"+subr
+                count = count+1
+
+    if count == 0: count = 1
+    
+    return message,count
