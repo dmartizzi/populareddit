@@ -48,10 +48,10 @@
 	    <select class="form-control" id="subr_name" name="subr_name">
               <!--<option>r/advice</option>-->
               <option>r/changemyview</option>
-              <!--<option>r/compsci</option>-->
+              <option>r/compsci</option>
               <!--<option>r/confession</option>-->
               <option>r/history</option>
-              <!--<option>r/parenting</option>-->
+              <option>r/parenting</option>
               <option>r/politicaldiscussion</option>
               <!--<option>r/quotes</option>-->
 	    </select>
@@ -63,12 +63,25 @@
           <div class="form-group">
             <label for="subm_text">What do you want to submit?</label>
 	    <br>
-            <textarea type="text" rows="8" cols="132" id="subm_text" name='subm_text' placeholder="e.g. I like chocolate."></textarea>
+            <textarea type="text" rows="8" cols="132" id="subm_text" name='subm_text' placeholder="Your post..."></textarea>
+	    <input type="button" value="Pre-fill" onclick="add()"/>
+	    <!--The above will call the function that'll add a string to the textarea's value-->
+	    <script>
+	      function add() {
+	      //We first get the current value of the textarea
+	      var x = document.getElementById("subm_text").value;
+	      //Then we concatenate a pre-set string y onto it
+	      var y = "CMV: Companies patenting simple things like a notification light is not beneficial to the spirit behind the patent system.\n\nA famous company recently patenting using the phone logo as a notification light should not be approved. As I understand it, the patent system is to protect an inventor from others taking their work and selling it without having to do the hard development work. Something as simple as the idea of using the logo as a notification is too generic and didn’t require enough development to justify a patent. Anything unique about it (new leds, new translucent aluminum, new quantum power supply) should be patented, but not just the usage as notification logo."
+	      document.getElementById("subm_text").value = x+y;
+	      }
+	    </script>
           </div>	
 	  
           <div>
             <button type="submit" class="btn btn-danger btn-lg">Will it be popular?</button>
           </div>
+	  
+          <br><br><br><br><br><br>
 	  
 	</form>
       </div>
