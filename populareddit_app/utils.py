@@ -154,8 +154,8 @@ def find_alternative_subreddits(subrin,subr_list,subm_text,maxalt):
     for subr in subr_list:
         if subr != subrin:
             rpath = os.getcwd()
-            nmf_model_path = rpath+"/controversit_app/nmf_models_prod"
-            reg_model_path = rpath+"/controversit_app/regression_models_prod"
+            nmf_model_path = rpath+"/populareddit_app/nmf_models_prod"
+            reg_model_path = rpath+"/populareddit_app/regression_models_prod"
             
             nmf_model,success_nmf,vectorizer,success_vec,transformer,success_tra = load_nmf_model(nmf_model_path,subr)        
             reg_pop_model,score_pop,success_pop,pop_fraction = load_reg_model(reg_model_path,subr)

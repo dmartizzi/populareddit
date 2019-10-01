@@ -2,8 +2,8 @@ import os
 import subprocess
 from flask import render_template
 from flask import request
-from controversit_app import app
-from controversit_app.utils import *
+from populareddit_app import app
+from populareddit_app.utils import *
 import pandas as pd
 
 @app.route('/')
@@ -17,7 +17,7 @@ def index():
 @app.route('/input')
 def input():
     rpath = os.getcwd()
-    static_path = rpath+"/controversit_app/static/images"
+    static_path = rpath+"/populareddit_app/static/images"
     if os.path.exists(static_path+"/popularity_hist.png"):
         subprocess.run(["rm",static_path+"/popularity_hist.png"])
     return render_template("input.html")
@@ -32,10 +32,10 @@ def output():
 
   # Paths
   rpath = os.getcwd()
-  nmf_model_path = rpath+"/controversit_app/nmf_models_prod"
-  reg_model_path = rpath+"/controversit_app/regression_models_prod"
-  pre_rendered_plots_path = rpath+"/controversit_app/pre_rendered_plots_prod"
-  static_path = rpath+"/controversit_app/static/images"
+  nmf_model_path = rpath+"/populareddit_app/nmf_models_prod"
+  reg_model_path = rpath+"/populareddit_app/regression_models_prod"
+  pre_rendered_plots_path = rpath+"/populareddit_app/pre_rendered_plots_prod"
+  static_path = rpath+"/populareddit_app/static/images"
 
   # List of Subreddits
   list_of_subr = get_list_of_subr(nmf_model_path)

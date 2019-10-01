@@ -21,7 +21,7 @@
   <body>
 
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="http://controversit.xyz">PopulaReddit</a>
+      <a class="navbar-brand" href="http://populareddit.xyz">PopulaReddit</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -30,7 +30,7 @@
       <script src="static/js/bootstrap.min.js"></script>
     </nav>
 
-    <br><br>
+    <br><br><br><br>
     
     <div class="container">
       <div class="starter-template">
@@ -41,12 +41,6 @@
       <div class = "container">	
 	
 	<form  action="/output" method="GET">
-	  <!--
-	      <div class="form-group">
-		<label for="subredditname">Choose a Subreddit:</label>
-		<input type="text" id="subredditname" name='subredditname' placeholder="e.g. r/politicaldiscussion">
-              </div>
-	  -->
 
 	  <div class="form-group">
             <h3>Input</h3>
@@ -62,17 +56,67 @@
             <p>{{subm_text}}<p>
 	  </div>
 
-	  <div class="starter-template">
+	  <!--<div class="starter-template">
 	    <div>
-	      <font color={{message_color}}><h5>{{message}}</h5></font>
-	      <br>
-              <a class="btn btn-success btn-lg" href="http://controversit.xyz" role="button">Check another submission</a>
+	      <font color={{message_color}}><h3>{{message}}</h3></font>
 	    </div>
-	  </div>
+	  </div>-->
+
+	  <br><br><br><br><br><br><br>
 	  
+	  <div class="starter-template">
+            <h3>Results</h3>
+	    <br>
+	    <!--<h4>PopulaReddit predicts with {{score_pop}} confidence that...<h4>-->
+	    <font color={{pop_color}}><h4>Your post is going to be {{pop_mess}}!<h4></font>
+	    <br><br>
+            <h3>Other subreddits where the topics of your post might be popular</h3>
+            <br>
+            <table class="table table-hover">
+              {% for i in range(0,alt_subr_count) %}
+              <tr><td>{{ alt_subr[i] }}</td></tr>
+              {% endfor %}
+            </table>
+          </div>
+
+          <br><br><br><br><br><br><br>
+	  
+          <div class="starter-template">
+	    <h3>Summary statistics for {{subr_name}}</h3>
+	    <br>
+	    <h4>{{pop_fraction}}% of the posts on {{subr_name}} are popular.<h4>
+		<br><br>
+		<div style="display: flex; justify-content: center;">
+		  <img src="../static/images/popularity_hist.png" />
+		</div>
+	  </div>
+
+	  <br><br><br><br><br><br><br>
+	  
+	  <div class="starter-template">
+	    <h3>Most Popular Topics and Words on {{subr_name}}</h3>
+	    <h4>The most popular posts include the word combinations shown below.</h4>
+	    <p>NOTE: words are been stemmed for convenience.</p>
+            <br> 
+	    <table class="table table-hover">
+	      <tr><th>Topic 1 </th><th>Topic 2 </th><th>Topic 3 </th><th>Topic 4 </th><th>Topic 5 </th></tr>
+	      {% for i in range(0,num_top_words) %}
+	      <tr><td>{{ topics['Topic 01'][i] }}</td><td>{{ topics['Topic 02'][i] }}</td><td> {{ topics['Topic 03'][i] }}</td><td>{{ topics['Topic 04'][i] }}</td><td>{{ topics['Topic 05'][i] }}</td></tr>
+	      {% endfor %}
+	    </table>
+	  </div>
+	    
+          <br><br><br><br><br><br>
+
+          <div class="starter-template">
+            <div>
+              <a class="btn btn-success btn-lg" href="http://populareddit.xyz/input" role="button">Check another submission</a>
+            </div>
+          </div>
+
 	</form>
       </div>
-      
+
       <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
       <script src="static/js/bootstrap.min.js"></script>
 
