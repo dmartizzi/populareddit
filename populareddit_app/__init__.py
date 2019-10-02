@@ -1,6 +1,6 @@
 from flask import Flask
 app = Flask(__name__)
-from controversit_app import views
+from populareddit_app import views
 app.config['SEND_FILE_MAX_AGE_DEFAULT'] = 300
 # No cacheing at all for API endpoints.
 
