@@ -1,4 +1,4 @@
-# Populareddit
+# PopulaReddit
 
 This tool was created by Davide Martizzi as a project for the Insight Data Science Fellowship, Silicon Valley 2019C.
 
