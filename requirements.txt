@@ -95,7 +95,7 @@ SQLAlchemy-Utils==0.34.2
 sympy==1.4
 terminado==0.8.2
 testpath==0.4.2
-tornado==6.0.3
+tornado==6.5
 traitlets==4.3.2
 Unidecode==1.0.23
 update-checker==0.16
