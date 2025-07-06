@@ -26,4 +26,4 @@ Feel free to play with [PopulaReddit](http://populareddit.xyz/).
 
 # Notes
 
-The accuracy of the model predicting popularity is between 60% and 85%, depending on which subreddit is selected. Improvements on the way...
+Although this is just a toy project, the accuracy of the model predicting popularity is between 60% and 85%, depending on which subreddit is selected. 
