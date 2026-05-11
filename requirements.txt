@@ -50,7 +50,7 @@ MarkupSafe==1.1.1
 matplotlib==3.1.0
 mistune==3.2.1
 mpmath==1.3.0
-nbconvert==6.5.1
+nbconvert==7.17.1
 nbdime==1.1.1
 nbformat==4.4.0
 neo4j==1.7.4
