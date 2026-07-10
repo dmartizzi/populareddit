@@ -48,7 +48,7 @@ kiwisolver==1.1.0
 lxml==6.1.0
 MarkupSafe==1.1.1
 matplotlib==3.1.0
-mistune==3.2.1
+mistune==3.3.0
 mpmath==1.3.0
 nbconvert==7.17.1
 nbdime==1.1.1
